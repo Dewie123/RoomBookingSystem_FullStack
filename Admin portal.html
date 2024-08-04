@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Staff Room Booking Portal</title>
+    <style>
+        
+        body {
+            background-color: rgb(43, 42, 42);
+            margin: 0;
+            padding: 0;
+        }
+
+        
+        .header {
+            background-color: #3498db; 
+            color: white; 
+            text-align: center;
+            padding: 10px;
+            border-bottom: none; 
+            font-size: 24px;
+            width: 100%; 
+        }
+
+        
+        .table-container {
+            max-width: 800px;
+            margin-left: 20px;
+            margin-top: 20px;
+            float: left;
+            display: block;
+        }
+
+        table {
+            width: 100%;
+            border: none;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left; 
+            color: rgb(46, 213, 255);
+        }
+
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+
+        
+        .black-row {
+            background-color: rgb(67, 75, 78);
+            color: rgb(77, 77, 77);
+        }
+
+        .grey-row {
+            background-color: rgb(182, 182, 182);
+        }
+
+        
+        tr {
+            margin: 0;
+            padding: 0;
+        }
+
+        button {
+            color: rgb(46, 213, 255);
+            padding: 0;
+            border: none;
+            background: none;
+        }
+        .rightalign {
+            text-align:right;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        Staff Room Booking Portal
+    </div>
+    
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th colspan="2">Room Management</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="black-row">
+
+                    <td>View Rooms Available</td>
+
+                    <div class="rightalign"></div>
+
+                    <td>
+                        <div id="redirect-button-view" class="rightalign"><button><FONT COLOR="#008000"><span >&#128065;</span></FONT> View</button></div>
+                    </td>
+                </tr>
+                <tr class="grey-row">
+
+                    <td>Promo codes</td>
+
+                    <a href="Admin add promo.html">
+                        <td>
+                            <div class="rightalign"><button><FONT COLOR="#008000"><span >&#43;</span></FONT> Add</button></div>
+                        </td>
+                    </a>
+                    
+                </tr>
+                <tr class="black-row">
+                    <td>Add Rooms</td>
+                    <td> 
+                        <div  class="rightalign"><a href="Admin add room.html"><button><FONT COLOR="#008000"><span >&#43;</span></FONT> Add</button></a></div>
+                    </td>
+                </tr>
+                <tr class="grey-row">
+                    <td>Time Slots</td>
+                    <td>
+                        <div class="rightalign"><button><FONT COLOR="#008000"><span >&#43;</span></FONT> Add</button></div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script>
+        document.getElementById('redirect-button-view').addEventListener('click', function () {
+            
+            window.location.href = "http://127.0.0.1:5000/display_rooms";
+        });
+    </script>
+    
+</body>
+</html>

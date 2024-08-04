@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Staff Room Booking Portal</title>
+    <style>
+       
+        body {
+            background-color: rgb(43, 42, 42);
+            margin: 0;
+            padding: 0;
+        }
+
+        
+        .header {
+            background-color: #3498db; 
+            color: white; 
+            text-align: center;
+            padding: 10px;
+            border-bottom: none; 
+            font-size: 24px;
+            width: 100%; 
+        }
+
+        
+        .room-management-table {
+            max-width: 800px;
+            margin-left: 20px;
+            margin-top: 20px;
+            float: left;
+            display: block;
+        }
+
+        .room-available-table {
+            max-width: 1000px;
+            color: blueviolet;
+            margin-left: 300px;
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border: none;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left; 
+            color: rgb(46, 213, 255);
+        }
+
+        th {
+            background-color: #3498db;
+            color: white;
+            border: 1px solid #000; 
+            padding: 8px; 
+            text-align: center; 
+        }
+
+        
+        .black-row {
+            background-color: rgb(67, 75, 78);
+            color: rgb(77, 77, 77);
+        }
+
+        .grey-row {
+            background-color: rgb(182, 182, 182);
+        }
+
+        .selected-row {
+            background-color: red;
+        }
+
+        
+        tr {
+            margin: 0;
+            padding: 0;
+        }
+
+        button {
+            color: rgb(46, 213, 255);
+            padding: 0;
+            border: none;
+            background: none;
+        }
+
+        .rightalign {
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        Staff Room Booking Portal
+        <a href="RBS">
+            <button style="margin-left: 1500px;">LOG OUT</button>
+        </a>
+    </div>
+
+    <div class="room-management-table">
+        <table>
+            <thead>
+                <tr>
+                    <th colspan="2">Room Management</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr class="black-row">
+                    <td>Add Rooms</td>
+                    <td>
+                        <div class="rightalign">
+                            <a href="/admin_add_room">
+                                <button><FONT COLOR="#008000"><span >&#43;</span></FONT> Add</button></div>
+                            </a>
+                    </td>
+                </tr>
+
+                <tr class="selected-row">
+                    <td>View Rooms Available</td>
+                    <div class="rightalign"></div>
+                    <td>
+                        <div class="rightalign">
+                            <a href="/display_rooms">
+                                <button><FONT COLOR="#008000"><span >&#128065;</span></FONT> View</button></div>
+                            </a>
+                           
+                    </td>
+                </tr>
+
+                <tr class="black-row">
+                    <td>Add Promo </td>
+                    
+                    <td>
+                        <div class="rightalign">
+                            <a href="/admin_add_promo">
+
+                                <button><FONT COLOR="#008000"><span >&#43;</span></FONT> Add</button></div>
+
+                            </a>
+                    </td>
+                    
+                </tr>
+
+                <tr class="grey-row">
+                    <td>View Promo</td>
+                    <td>
+                        <div class="rightalign">
+                            <a href="http://127.0.0.1:5000/display_promo">
+                                <button><FONT COLOR="#008000"><span >&#43;</span></FONT> View</button></div>
+                            </a>
+                    </td>
+                </tr>
+
+                
+                
+            </tbody>
+        </table>
+    </div>
+
+    <div class="room-available-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>Promo code</th>
+                    <th>Available from</th>
+                    <th>Available to</th>
+                    <th>Amount of Discount</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for room in rooms %}
+                <tr>
+                    <td>{{ room[0] }}</td>  <!-- promo code -->
+                    <td>{{ room[1] }}</td>  <!-- promo start date -->
+                    <td>{{ room[2] }}</td>  <!-- promo end date -->
+                    <td>{{ room[3] }}</td>  <!-- promo code amount -->
+                     
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

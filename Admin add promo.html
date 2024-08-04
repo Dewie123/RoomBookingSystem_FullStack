@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Staff Room Booking Portal</title>
+    <style>
+       
+        body {
+            background-color: rgb(43, 42, 42);
+            margin: 0;
+            padding: 0;
+        }
+
+       
+        .header {
+            background-color: #3498db; 
+            color: white; 
+            text-align: center;
+            padding: 10px;
+            border-bottom: none; 
+            font-size: 24px;
+            width: 100%; 
+        }
+
+        
+        .table-container {
+            
+            max-width: 800px;
+            margin-left: 20px;
+            margin-top: 20px;
+            float: left;
+            display: block;
+        }
+
+        table {
+            width: 100%;
+            border: none;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left; 
+            color: rgb(46, 213, 255);
+        }
+
+        th {
+            background-color: #3498db;
+            color: white;
+        }
+
+       
+        .black-row {
+            background-color: rgb(67, 75, 78);
+            color: rgb(77, 77, 77);
+        }
+
+        .grey-row {
+            background-color: rgb(182, 182, 182);
+        }
+
+        .selected-row{
+            background-color: red;
+        }
+        
+        tr {
+            margin: 0;
+            padding: 0;
+        }
+
+        button {
+            color: rgb(46, 213, 255);
+            padding: 0;
+            border: none;
+            background: none;
+        }
+        .rightalign {
+            text-align:right;
+        }
+        .user-input-table{
+            margin-left: 225px;
+            margin-top: 30px;
+        }
+        label[for="room-duration"] {
+            position: relative;
+            top: -53px;
+        }   
+        .user-input-table{
+            color: white;
+        }
+        hr{
+            width: 40%;
+            margin-left: 0px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        Staff Room Booking Portal
+        <a href="RBS">
+            <button style="margin-left: 1500px;">LOG OUT</button>
+        </a>
+    </div>
+    
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th colspan="2">Room Management</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr class="black-row">
+                    <td>Add Rooms</td>
+                    <td>
+                        <div class="rightalign">
+                            <a href="/admin_add_room">
+                                <button><FONT COLOR="#008000"><span >&#43;</span></FONT> Add</button></div>
+                            </a>
+                    </td>
+                </tr>
+
+                <tr class="selected-row">
+                    <td>View Rooms Available</td>
+                    <div class="rightalign"></div>
+                    <td>
+                        <div class="rightalign">
+                            <a href="/display_rooms">
+                                <button><FONT COLOR="#008000"><span >&#128065;</span></FONT> View</button></div>
+                            </a>
+                           
+                    </td>
+                </tr>
+
+                <tr class="black-row">
+                    <td>Add Promo </td>
+                    
+                    <td>
+                        <div class="rightalign">
+                            <a href="/admin_add_promo">
+
+                                <button><FONT COLOR="#008000"><span >&#43;</span></FONT> Add</button></div>
+
+                            </a>
+                    </td>
+                    
+                </tr>
+
+                <tr class="grey-row">
+                    <td>View Promo</td>
+                    <td>
+                        <div class="rightalign">
+                            <a href="http://127.0.0.1:5000/display_promo">
+                                <button><FONT COLOR="#008000"><span >&#43;</span></FONT> View</button></div>
+                            </a>
+                    </td>
+                </tr>
+
+                
+                
+            </tbody>
+        </table>
+    </div>
+    <div class="user-input-table" style="margin-left: 300px;">
+        <form id="room-form" onsubmit="return submitForm()" method="POST" action="http://127.0.0.1:5000/api/insert">
+
+        <p>Add Promo code</p>
+        <label for="promo-code">Promo code:</label>&ensp;&ensp;&ensp;&ensp;&ensp;&nbsp;
+        <input type="text" id="promo-code" name="promo-code" required>
+        <hr>
+        <p></p>
+
+        <label for="promo-start-date">Available from:</label>&ensp;&ensp;&nbsp;&nbsp;
+        <input type="date" id="promo-start-date" name="promo-start-date">
+        <p></p>
+        <hr>    
+
+        <label for="promo-end-date">Available till:</label>&ensp;&ensp;&ensp;&ensp;&nbsp;
+        <input type="date" id="promo-end-date" name="promo-end-date">
+        <p></p>
+        <hr>
+            
+        <label for="promo-amount">Discount:</label>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&nbsp;
+        <input type="text" id="promo-amount" name="promo-amount">
+        <p></p>
+        <hr>
+
+        <input type="hidden" name="target-table" value="promo_codes">    
+        <p></p>
+        <input type="submit" value="Submit">
+    </form>
+    </div>
+   
+    
+    <script>
+        function submitForm() {
+        
+        const form = document.getElementById('room-form');
+
+        
+        const roomData = {};
+
+        
+        for (const element of form.elements) {
+            
+            if (element.name && element.value) {
+           
+            roomData[element.name] = element.value;
+            }
+        }
+
+       
+        const jsonData = JSON.stringify(roomData);
+
+        
+        fetch('http://127.0.0.1:5000/api/insert', {
+            method: 'POST', 
+            body: jsonData, 
+            headers: {
+                'Content-Type': 'application/json', 
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Response from server:', data);
+            resetForm();
+            window.location.href = "http://127.0.0.1:5000/display_promo";
+            
+        })
+        .catch(error => {
+            console.error('Error:', error);
+           
+        });
+
+       
+        return false;
+        }
+        
+        function resetForm() {
+        document.getElementById('room-form').reset();
+        }
+
+        document.getElementById('redirect-button-view').addEventListener('click', function () {
+            
+            window.location.href = "http://127.0.0.1:5000/display_rooms";
+        });
+    </script>
+   
+</body>
+</html>

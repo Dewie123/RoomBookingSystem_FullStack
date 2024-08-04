@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Login Page</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: grey;
+        }
+
+        .login-form {
+            color: white;
+            border: 1px solid black;
+            padding: 40px;
+            max-width: 210px;
+            max-height: 500px;
+            background-color: rgb(20, 18, 18);
+            border-radius: 5px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input {
+            width: 100%;
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+        }
+
+        h1 {
+            color: #3498db;
+            font-size: 20px;
+            margin-left: 45px;
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-form">
+        <h1>ADMIN LOG IN SCREEN</h1>
+        <form>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" placeholder="Enter your username">
+            
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" placeholder="Enter your password">
+            
+           
+            
+            <button id="login-button" class="btn">Login</button>
+            </a>
+        </form>
+    </div>
+    <script>
+        
+        const loginButton = document.getElementById('login-button');
+        
+       
+        const users = [
+            { username: 'admin', password: 'adminpassword', webpage: 'http://127.0.0.1:5000/display_rooms' },
+            
+        ];
+    
+        
+        loginButton.addEventListener('click', function(event) {
+            event.preventDefault(); 
+            
+            const enteredUsername = document.getElementById('username').value;
+            const enteredPassword = document.getElementById('password').value;
+    
+           
+            const matchingUser = users.find(user => user.username === enteredUsername && user.password === enteredPassword);
+    
+            if (matchingUser) {
+                
+                window.location.href = matchingUser.webpage;
+            } else {
+               
+                alert('Invalid username or password. Please try again.');
+            }
+        });
+    </script>
+    
+    
+</body>
+</html>

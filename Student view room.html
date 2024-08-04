@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Student Room Booking Portal</title>
+    <style>
+        
+        body {
+            background-color: rgb(43, 42, 42);
+            margin: 0;
+            padding: 0;
+        }
+
+        
+        .header {
+            background-color: #3498db; 
+            color: white; 
+            text-align: center;
+            padding: 10px;
+            border-bottom: none; 
+            font-size: 24px;
+            width: 100%; 
+        }
+
+        
+        .room-management-table {
+            max-width: 800px;
+            margin-left: 20px;
+            margin-top: 20px;
+            float: left;
+            display: block;
+        }
+
+        .room-available-table {
+            max-width: 800px;
+            color: blueviolet;
+            margin-left: 300px;
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border: none;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left; 
+            color: rgb(46, 213, 255);
+        }
+
+        th {
+            background-color: #3498db;
+            color: white;
+            border: 1px solid #000; 
+            padding: 8px; 
+            text-align: center; 
+        }
+
+        
+        .black-row {
+            background-color: rgb(67, 75, 78);
+            color: rgb(77, 77, 77);
+        }
+
+        .grey-row {
+            background-color: rgb(182, 182, 182);
+        }
+
+        .selected-row {
+            background-color: red;
+        }
+
+        
+        tr {
+            margin: 0;
+            padding: 0;
+        }
+
+        button {
+            color: rgb(46, 213, 255);
+            padding: 0;
+            border: none;
+            background: none;
+        }
+
+        .rightalign {
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        Student Room Booking Portal
+        <a href="RBS">
+            <button style="margin-left: 1500px;">LOG OUT</button>
+        </a>
+        
+    </div>
+
+    <div class="room-management-table">
+        <table>
+            <thead>
+                <tr>
+                    <th colspan="2">Room Management</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="grey-row">
+                    <td>Book Room</td>
+                    <div class="rightalign"></div>
+                    <td>
+                        <div id="redirect-button-view" class="rightalign"><button><FONT COLOR="#008000"><span >&#128065;</span></FONT> View</button></div>
+                    </td>
+                </tr>
+                <tr class="selected-row">
+                    <td>View My Bookings</td>
+                    <td>
+                        <div class="rightalign">
+                            <button><FONT COLOR="#008000"><span >&#128065;</span></FONT> View</button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="room-available-table">
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 150px;">Room Name</th>
+                    <th style="width: 150px;">Room Type</th>
+                    <th style="width: 150px;">Description</th>
+                    <th style="width: 150px;">Room Capacity</th>
+                    <th style="width: 150px;">Room start date</th>
+                    <th style="width: 150px;">Room end date</th>
+                    <th style="width: 150px;">Room Duration</th>
+                    <th style="width: 150px;">Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for room in rooms %}
+                <tr>
+                    <td>{{ room[1] }}</td>  <!-- room name-->
+                    <td>{{ room[2] }}</td>  <!-- room type -->
+                    <td>{{ room[3] }}</td>  <!-- Description -->
+                    <td>{{ room[4] }}</td>  <!-- room capacity -->
+                    <td>{{ room[5] }}</td>  <!-- room start date -->
+                    <td>{{ room[6] }}</td>  <!-- room end date -->
+                    <td>{{ room[7] }}</td>  <!-- room duration--> 
+                    <td>{{ room[9] }}</td>  <!-- room price--> 
+                    <td>
+                        <button class="delete-button" data-room-name="{{ room[1] }}"><span>&#10006;</span> Delete</button>
+                    </td>
+                    <td>
+                        <button onclick="modifyRoom('{{ room[1] }}')">Modify</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <script>
+        document.getElementById('redirect-button-view').addEventListener('click', function () {
+            
+            window.location.href = "http://127.0.0.1:5000/display_student_room_dropdown";
+        });
+
+        
+        const deleteButtons = document.querySelectorAll('.delete-button');
+
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const roomName = button.getAttribute('data-room-name');
+                
+                
+                fetch('http://127.0.0.1:5000/delete_booking', {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ room_name: roomName }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    
+                    console.log(data);
+                   
+                    if (data.message === 'Booking deleted successfully') {
+                        
+                        const tableRow = button.closest('tr');
+                        tableRow.remove();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    
+                });
+            });
+        });
+        
+        function modifyRoom(roomName) {
+    
+    fetch('http://127.0.0.1:5000/process_and_display_data', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ room_name: roomName }),
+    })
+    .then(response => {
+        if (response.ok) {
+            
+            window.location.href = "http://127.0.0.1:5000/student_view_room_edit";
+        } else {
+            console.error('Error:', response.status, response.statusText);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        
+    });
+}
+
+
+    </script>
+</body>
+</html>
